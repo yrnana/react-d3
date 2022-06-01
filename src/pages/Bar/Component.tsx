@@ -2,17 +2,17 @@ import { useMemo } from 'react';
 
 import { scaleBand, scaleLinear, scaleOrdinal } from 'd3';
 
-import { Axis, Bar, Group } from '~/components/Chart';
+import { Axis, BarGroup, Group } from '~/components/Chart';
 
 type Datum = {
-  group: string;
+  key: string;
   value: number;
 };
 
 const data: Datum[] = [
-  { group: 'A', value: 4 },
-  { group: 'B', value: 18 },
-  { group: 'C', value: 10 },
+  { key: 'A', value: 4 },
+  { key: 'B', value: 18 },
+  { key: 'C', value: 10 },
 ];
 
 const margin = { top: 30, right: 30, bottom: 30, left: 40 },
@@ -24,7 +24,7 @@ export default function Component() {
     () =>
       scaleBand()
         .range([0, width])
-        .domain(data.map((d) => d.group))
+        .domain(data.map((d) => d.key))
         .padding(0.2),
     []
   );
@@ -50,18 +50,13 @@ export default function Component() {
           className="x-axis"
         />
         <Axis orient="left" axisScale={y} className="y-axis" />
-        <Group className="bars">
-          {data.map((d, index) => (
-            <Bar
-              key={index}
-              x={x(d.group)}
-              y={y(d.value)}
-              width={x.bandwidth()}
-              height={height - y(d.value)}
-              fill={color(d.group)}
-            />
-          ))}
-        </Group>
+        <BarGroup
+          data={data}
+          xScale={x}
+          yScale={y}
+          height={height}
+          color={color}
+        />
       </Group>
     </svg>
   );
