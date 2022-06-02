@@ -17,6 +17,10 @@ export type BarGroupProps<
   xScale: ScaleBand<XDomain> | ScalePoint<XDomain>;
   yScale: AxisScale<YDomain>;
   color?: ScaleOrdinal<XDomain, string>;
+  transition?: {
+    duration?: number;
+    ease?: (normalizedTime: number) => number;
+  };
 };
 
 export const BarGroup = <
@@ -28,17 +32,20 @@ export const BarGroup = <
   xScale,
   yScale,
   color,
+  transition,
 }: BarGroupProps<XDomain, YDomain>) => {
   return (
     <Group className="bars">
       {data.map((d, index) => (
         <Bar
           key={index}
-          x={xScale(d.key)}
-          y={yScale(d.value)}
-          width={xScale.bandwidth()}
-          height={height - (yScale(d.value) || 0)}
-          fill={color?.(d.key)}
+          xScale={xScale}
+          xValue={d.key}
+          yScale={yScale}
+          yValue={d.value}
+          barHeight={height}
+          barColor={color}
+          transition={transition}
         />
       ))}
     </Group>
