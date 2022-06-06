@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 
 import { scaleBand, scaleLinear, scaleOrdinal } from 'd3';
 
+import { Button } from '~/components';
 import { Axis, BarGroup, Group } from '~/components/Chart';
 
 type Datum = {
@@ -59,10 +60,11 @@ export default function Interactive() {
           <Axis
             orient="bottom"
             axisScale={x}
+            fontSize={12}
             transform={`translate(0,${height})`}
             className="x-axis"
           />
-          <Axis orient="left" axisScale={y} className="y-axis" />
+          <Axis orient="left" axisScale={y} fontSize={12} className="y-axis" />
           <BarGroup
             data={data[index]}
             xScale={x}
@@ -76,12 +78,9 @@ export default function Interactive() {
         </Group>
       </svg>
       <div className="mt-4">
-        <button
-          className="bg-violet-400 text-white p-2 rounded"
-          onClick={() => setIndex((value) => (value === 0 ? 1 : 0))}
-        >
+        <Button onClick={() => setIndex((value) => (value === 0 ? 1 : 0))}>
           데이터 변경
-        </button>
+        </Button>
       </div>
     </div>
   );

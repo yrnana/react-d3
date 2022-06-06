@@ -3,4 +3,5 @@ export * from './Bar';
 export * from './BarGroup';
 export * from './Group';
 export * from './Line';
+export * from './Path';
 export * from './Text';

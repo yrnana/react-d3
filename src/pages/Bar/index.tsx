@@ -4,6 +4,7 @@ import { NavLink } from '~/components';
 
 import Component from './Component';
 import DataLabel from './DataLabel';
+import Horizontal from './Horizontal';
 import Interactive from './Interactive';
 import Simple from './Simple';
 import Transition from './Transition';
@@ -26,6 +27,7 @@ export default function BarChart() {
         <Route path="transition" element={<Transition />} />
         <Route path="component" element={<Component />} />
         <Route path="interactive" element={<Interactive />} />
+        <Route path="horizontal" element={<Horizontal />} />
       </Routes>
     </>
   );

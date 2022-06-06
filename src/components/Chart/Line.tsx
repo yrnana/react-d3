@@ -1,5 +1,5 @@
-export type LineProps = React.SVGProps<SVGPathElement>;
+export type LineProps = React.SVGProps<SVGLineElement>;
 
 export const Line = (props: LineProps) => {
-  return <path {...props} />;
+  return <line {...props} />;
 };

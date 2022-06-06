@@ -2,12 +2,11 @@ import { useCallback, useMemo } from 'react';
 
 import type { AxisDomain, AxisScale, ScaleBand, ScalePoint } from 'd3';
 
-import { type GroupProps, Group, Line, Text } from './index';
+import { type GroupProps, Group, Line, Path, Text } from './index';
 
 const defaultOffset =
   typeof window !== 'undefined' && window.devicePixelRatio > 1 ? 0 : 0.5;
 
-// TODO: tick svg props 따로 받도록 함
 export type AxisProps<Domain extends AxisDomain> = GroupProps & {
   orient: 'left' | 'right' | 'top' | 'bottom';
   axisScale: AxisScale<Domain>;
@@ -101,7 +100,7 @@ export const Axis = <Domain extends AxisDomain>({
       {...props}
       textAnchor={textAnchor}
     >
-      <Line className="domain" stroke="currentColor" d={domainPath} />
+      <Path className="domain" stroke="currentColor" d={domainPath} />
       {!hideTicks &&
         values.map((value, index) => (
           <Group

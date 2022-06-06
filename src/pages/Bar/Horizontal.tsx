@@ -19,7 +19,7 @@ const margin = { top: 30, right: 30, bottom: 30, left: 40 },
   width = 400 - margin.left - margin.right,
   height = 400 - margin.top - margin.bottom;
 
-export default function Component() {
+export default function Horizontal() {
   const x = useMemo(
     () =>
       scaleBand()
