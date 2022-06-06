@@ -9,23 +9,21 @@ import {
   select,
 } from 'd3';
 
-export type BarProps<
-  XDomain extends AxisDomain,
-  YDomain extends AxisDomain
-> = React.SVGProps<SVGRectElement> & {
-  xScale: ScaleBand<XDomain> | ScalePoint<XDomain>;
-  xValue: XDomain;
-  yScale: AxisScale<YDomain>;
-  yValue: YDomain;
-  barHeight: number;
-  barColor?: ScaleOrdinal<XDomain, string>;
-  transition?: {
-    duration?: number;
-    ease?: (normalizedTime: number) => number;
+export type BarProps<XDomain extends AxisDomain> =
+  React.SVGProps<SVGRectElement> & {
+    xScale: ScaleBand<XDomain> | ScalePoint<XDomain>;
+    xValue: XDomain;
+    yScale: AxisScale<number>;
+    yValue: number;
+    barHeight: number;
+    barColor?: ScaleOrdinal<XDomain, string>;
+    transition?: {
+      duration?: number;
+      ease?: (normalizedTime: number) => number;
+    };
   };
-};
 
-export const Bar = <XDomain extends AxisDomain, YDomain extends AxisDomain>({
+export const Bar = <XDomain extends AxisDomain>({
   xScale,
   xValue,
   yScale,
@@ -34,20 +32,20 @@ export const Bar = <XDomain extends AxisDomain, YDomain extends AxisDomain>({
   barColor,
   transition,
   ...props
-}: BarProps<XDomain, YDomain>) => {
+}: BarProps<XDomain>) => {
   const ref = useRef<SVGRectElement>(null);
 
   useEffect(() => {
     // transition
     if (transition && ref.current) {
-      const rect = select(ref.current);
-      const yScaleNum = (value: YDomain) => yScale(value) || 0;
+      let rect = select(ref.current);
 
-      if (rect.attr('y') === null) {
-        const yDomainMin = yScale.domain()[0];
-        rect
-          .attr('y', yScaleNum(yDomainMin))
-          .attr('height', barHeight - yScaleNum(yDomainMin));
+      const yDomainMin = yScale.domain()[0];
+
+      if (!rect.attr('y')) {
+        rect = rect
+          .attr('y', yScale(yDomainMin) || 0)
+          .attr('height', barHeight - (yScale(yDomainMin) || 0));
       }
 
       let chain = rect.transition().duration(transition.duration || 800);
@@ -55,16 +53,8 @@ export const Bar = <XDomain extends AxisDomain, YDomain extends AxisDomain>({
         chain = chain.ease(transition.ease);
       }
       chain
-        .attrTween('y', (d) => {
-          return function (t: number) {
-            return String(barHeight - yScaleNum(yValue) * t);
-          };
-        })
-        .attrTween('height', (d) => {
-          return function (t: number) {
-            return String(yScaleNum(yValue) * t);
-          };
-        });
+        .attr('y', yScale(yValue) || 0)
+        .attr('height', barHeight - (yScale(yValue) || 0));
     }
   }, [barHeight, transition, yScale, yValue]);
 

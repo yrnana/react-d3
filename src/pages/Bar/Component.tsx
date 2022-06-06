@@ -42,11 +42,14 @@ export default function Component() {
       width={width + margin.left + margin.right}
       height={height + margin.top + margin.bottom}
     >
-      <Group className="chart" transform="translate(40,30)">
+      <Group
+        className="chart"
+        transform={`translate(${margin.left},${margin.top})`}
+      >
         <Axis
           orient="bottom"
           axisScale={x}
-          transform="translate(0,340)"
+          transform={`translate(0,${height})`}
           className="x-axis"
         />
         <Axis orient="left" axisScale={y} className="y-axis" />

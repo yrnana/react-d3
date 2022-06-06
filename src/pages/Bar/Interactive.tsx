@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-import { easeBackOut, scaleBand, scaleLinear, scaleOrdinal } from 'd3';
+import { scaleBand, scaleLinear, scaleOrdinal } from 'd3';
 
 import { Axis, BarGroup, Group } from '~/components/Chart';
 
@@ -45,8 +45,6 @@ export default function Interactive() {
     []
   );
 
-  const ease = useMemo(() => easeBackOut.overshoot(1.7), []);
-
   return (
     <div>
       <svg
@@ -54,11 +52,14 @@ export default function Interactive() {
         width={width + margin.left + margin.right}
         height={height + margin.top + margin.bottom}
       >
-        <Group className="chart" transform="translate(40,30)">
+        <Group
+          className="chart"
+          transform={`translate(${margin.left},${margin.top})`}
+        >
           <Axis
             orient="bottom"
             axisScale={x}
-            transform="translate(0,340)"
+            transform={`translate(0,${height})`}
             className="x-axis"
           />
           <Axis orient="left" axisScale={y} className="y-axis" />
@@ -70,7 +71,6 @@ export default function Interactive() {
             color={color}
             transition={{
               duration: 800,
-              ease: ease,
             }}
           />
         </Group>
