@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 
 import type { AxisDomain, AxisScale, ScaleBand, ScalePoint } from 'd3';
 
-import { type GroupProps, Group, Line, Path, Text } from './index';
+import { type GroupProps, Group, Line, Path, Text } from '~/components/Chart';
 
 const defaultOffset =
   typeof window !== 'undefined' && window.devicePixelRatio > 1 ? 0 : 0.5;

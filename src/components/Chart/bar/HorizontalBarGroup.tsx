@@ -6,14 +6,13 @@ import type {
   ScalePoint,
 } from 'd3';
 
-import { Bar, Group } from './index';
+import { Group, HorizontalBar } from '~/components/Chart';
 
-export type BarGroupProps<XDomain extends AxisDomain> = {
-  data: { key: XDomain; value: number }[];
-  height: number;
-  xScale: ScaleBand<XDomain> | ScalePoint<XDomain>;
-  yScale: AxisScale<number>;
-  color?: ScaleOrdinal<XDomain, string>;
+export type HorizontalBarGroupProps<YDomain extends AxisDomain> = {
+  data: { key: YDomain; value: number }[];
+  xScale: AxisScale<number>;
+  yScale: ScaleBand<YDomain> | ScalePoint<YDomain>;
+  color?: ScaleOrdinal<YDomain, string>;
   transition?:
     | {
         duration?: number;
@@ -22,24 +21,22 @@ export type BarGroupProps<XDomain extends AxisDomain> = {
     | boolean;
 };
 
-export const BarGroup = <XDomain extends AxisDomain>({
+export const HorizontalBarGroup = <XDomain extends AxisDomain>({
   data,
-  height,
   xScale,
   yScale,
   color,
   transition,
-}: BarGroupProps<XDomain>) => {
+}: HorizontalBarGroupProps<XDomain>) => {
   return (
     <Group className="bars">
       {data.map((d, index) => (
-        <Bar
+        <HorizontalBar
           key={index}
           xScale={xScale}
-          xValue={d.key}
+          xValue={d.value}
           yScale={yScale}
-          yValue={d.value}
-          barHeight={height}
+          yValue={d.key}
           barColor={color}
           transition={transition}
         />

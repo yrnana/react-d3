@@ -9,18 +9,23 @@ import {
   select,
 } from 'd3';
 
+type Datum = {
+  key: string;
+  value: number;
+};
+
+const data: Datum[] = [
+  { key: 'A', value: 4 },
+  { key: 'B', value: 18 },
+  { key: 'C', value: 10 },
+];
+
 export default function Simple() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const initChart = useCallback(() => {
     const container = containerRef.current;
     if (!container) return;
-
-    const data = [
-      { group: 'A', value: 4 },
-      { group: 'B', value: 18 },
-      { group: 'C', value: 10 },
-    ];
 
     const color = scaleOrdinal<string>().range([
       '#22d3ee',
@@ -49,7 +54,7 @@ export default function Simple() {
     // X axis
     const x = scaleBand()
       .range([0, width])
-      .domain(data.map((d) => d.group))
+      .domain(data.map((d) => d.key))
       .padding(0.2);
     svg
       .append('g')
@@ -80,11 +85,11 @@ export default function Simple() {
       .selectAll('rect')
       .data(data)
       .join('rect')
-      .attr('x', (d) => x(d.group) || 0)
+      .attr('x', (d) => x(d.key) || 0)
       .attr('y', (d) => y(d.value))
       .attr('width', x.bandwidth())
       .attr('height', (d) => height - y(d.value))
-      .attr('fill', (d) => color(d.group));
+      .attr('fill', (d) => color(d.key));
   }, []);
 
   const destroyChart = useCallback(() => {
