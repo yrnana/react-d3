@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
-import { scaleBand, scaleLinear, scaleOrdinal } from 'd3';
+import { easeBackOut, scaleBand, scaleLinear, scaleOrdinal } from 'd3';
 
-import { Axis, BarGroup, Group } from '~/components/Chart';
+import { Axis, Group, HorizontalBarGroup } from '~/components/Chart';
 
 type Datum = {
   key: string;
@@ -15,21 +15,21 @@ const data: Datum[] = [
   { key: 'C', value: 10 },
 ];
 
-const margin = { top: 30, right: 30, bottom: 30, left: 40 },
+const margin = { top: 30, right: 30, bottom: 40, left: 30 },
   width = 400 - margin.left - margin.right,
   height = 400 - margin.top - margin.bottom;
 
 export default function Horizontal() {
-  const x = useMemo(
+  const x = useMemo(() => scaleLinear().domain([0, 20]).range([0, width]), []);
+
+  const y = useMemo(
     () =>
       scaleBand()
-        .range([0, width])
+        .range([0, height])
         .domain(data.map((d) => d.key))
         .padding(0.2),
     []
   );
-
-  const y = useMemo(() => scaleLinear().domain([0, 20]).range([height, 0]), []);
 
   const color = useMemo(
     () => scaleOrdinal<string>().range(['#22d3ee', '#a78bfa', '#4ade80']),
@@ -54,12 +54,14 @@ export default function Horizontal() {
           className="x-axis"
         />
         <Axis orient="left" axisScale={y} fontSize={12} className="y-axis" />
-        <BarGroup
+        <HorizontalBarGroup
           data={data}
           xScale={x}
           yScale={y}
-          height={height}
           color={color}
+          transition={{
+            ease: easeBackOut,
+          }}
         />
       </Group>
     </svg>

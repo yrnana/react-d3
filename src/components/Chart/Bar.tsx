@@ -17,10 +17,12 @@ export type BarProps<XDomain extends AxisDomain> =
     yValue: number;
     barHeight: number;
     barColor?: ScaleOrdinal<XDomain, string>;
-    transition?: {
-      duration?: number;
-      ease?: (normalizedTime: number) => number;
-    };
+    transition?:
+      | {
+          duration?: number;
+          ease?: (normalizedTime: number) => number;
+        }
+      | boolean;
   };
 
 export const Bar = <XDomain extends AxisDomain>({
@@ -48,8 +50,12 @@ export const Bar = <XDomain extends AxisDomain>({
           .attr('height', barHeight - (yScale(yDomainMin) || 0));
       }
 
-      let chain = rect.transition().duration(transition.duration || 800);
-      if (transition.ease) {
+      let chain = rect
+        .transition()
+        .duration(
+          (typeof transition === 'object' ? transition.duration : 800) || 800
+        );
+      if (typeof transition === 'object' && transition.ease) {
         chain = chain.ease(transition.ease);
       }
       chain
