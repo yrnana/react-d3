@@ -80,8 +80,9 @@ export default function DataLabel() {
       });
 
     // Bars
-    const barGroup = svg.append('g').attr('class', 'bars');
-    barGroup
+    svg
+      .append('g')
+      .attr('class', 'bars')
       .selectAll('rect')
       .data(data)
       .join('rect')
@@ -92,8 +93,9 @@ export default function DataLabel() {
       .attr('fill', (d) => color(d.key));
 
     // data-labels
-    const labelGroup = svg.append('g').attr('class', 'data-labels');
-    labelGroup
+    svg
+      .append('g')
+      .attr('class', 'data-labels')
       .selectAll('text')
       .data(data)
       .join('text')

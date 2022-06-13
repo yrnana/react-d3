@@ -51,8 +51,9 @@ export default function Simple() {
       .innerRadius(innerRadius)
       .outerRadius(outerRadius);
 
-    const pieGroup = svg.append('g').attr('class', 'donut');
-    pieGroup
+    svg
+      .append('g')
+      .attr('class', 'donut')
       .selectAll('path')
       .data(d3Pie(datum))
       .join('path')

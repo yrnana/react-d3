@@ -83,9 +83,9 @@ export default function Transition() {
     const ease = easeBackOut.overshoot(1.7);
 
     // Bars
-    const barGroup = svg.append('g').attr('class', 'bars');
-    barGroup
-      .selectAll('rect')
+    svg
+      .append('g')
+      .attr('class', 'bars')
       .data(data)
       .join('rect')
       .attr('x', (d) => x(d.key) || 0)

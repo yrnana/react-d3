@@ -60,8 +60,9 @@ export default function Transition() {
       .innerRadius(innerRadius)
       .outerRadius(outerRadius);
 
-    const pieGroup = svg.append('g').attr('class', 'donut');
-    pieGroup
+    svg
+      .append('g')
+      .attr('class', 'donut')
       .selectAll('path')
       .data(pieData)
       .join('path')
@@ -76,8 +77,9 @@ export default function Transition() {
         };
       });
 
-    const labelGroup = svg.append('g').attr('class', 'labels');
-    labelGroup
+    svg
+      .append('g')
+      .attr('class', 'data-labels')
       .attr('font-family', 'system-ui, AppleSDGothicNeo, sans-serif')
       .attr('font-size', 16)
       .attr('font-weight', 600)

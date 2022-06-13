@@ -8,7 +8,7 @@ import {
   pie,
 } from 'd3';
 
-import { Group, Path } from '~/components/Chart';
+import { type GroupProps, Group, Path, Text } from '~/components/Chart';
 
 type Datum = [unknown, NumberValue];
 
@@ -17,6 +17,9 @@ export type DonutGroupProps = {
   innerRadius: number;
   outerRadius: number;
   pathColor?: ScaleOrdinal<string, string>;
+  showLabel?: boolean;
+  labelFormat?: (d: PieArcDatum<Datum>) => string;
+  labelProps?: GroupProps;
 };
 
 export const DonutGroup = ({
@@ -24,6 +27,9 @@ export const DonutGroup = ({
   innerRadius,
   outerRadius,
   pathColor,
+  showLabel,
+  labelFormat = (d) => String(d.data[1]),
+  labelProps,
 }: DonutGroupProps) => {
   const pieData = useMemo<PieArcDatum<Datum>[]>(() => {
     return pie<Datum>()
@@ -40,14 +46,30 @@ export const DonutGroup = ({
   );
 
   return (
-    <Group className="donut">
-      {pieData.map((d) => (
-        <Path
-          key={d.index}
-          d={String(d3Arc(d))}
-          fill={pathColor?.(String(d.data[0]))}
-        />
-      ))}
-    </Group>
+    <>
+      <Group className="donut">
+        {pieData.map((d) => (
+          <Path
+            key={d.index}
+            d={String(d3Arc(d))}
+            fill={pathColor?.(String(d.data[0]))}
+          />
+        ))}
+      </Group>
+      {showLabel && (
+        <Group
+          className="labels"
+          fontFamily="system-ui, AppleSDGothicNeo, sans-serif"
+          textAnchor="middle"
+          {...labelProps}
+        >
+          {pieData.map((d) => (
+            <Text key={d.index} transform={`translate(${d3Arc.centroid(d)})`}>
+              {labelFormat(d)}
+            </Text>
+          ))}
+        </Group>
+      )}
+    </>
   );
 };

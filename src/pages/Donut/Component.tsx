@@ -32,6 +32,12 @@ export default function Component() {
           innerRadius={innerRadius}
           outerRadius={outerRadius}
           pathColor={color}
+          showLabel
+          labelProps={{
+            fontSize: 16,
+            fontWeight: 600,
+            fill: 'white',
+          }}
         />
       </Group>
     </svg>

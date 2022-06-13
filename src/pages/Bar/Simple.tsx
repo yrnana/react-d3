@@ -80,8 +80,9 @@ export default function Simple() {
       });
 
     // Bars
-    const barGroup = svg.append('g').attr('class', 'bars');
-    barGroup
+    svg
+      .append('g')
+      .attr('class', 'bars')
       .selectAll('rect')
       .data(data)
       .join('rect')
